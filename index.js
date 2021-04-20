@@ -8,7 +8,10 @@ const fs = require('fs');
 const path = require('path');
 const { Writable } = require('stream');
 
-
+app.use(express.static(path.join(__dirname, 'client/build')))// Anything that doesn't match the above, send back index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'))
+})
 
 app.use(express.json());
 app.use(cors());
@@ -17,60 +20,6 @@ const Polly = new AWS.Polly({
     region: "us-west-2"
 })
 
-
-
-class PollyFetch {
-    constructor() {
-        this.url = "https://polly.us-west-2.amazonaws.com/v1";
-        this.engine = "standard";
-        this.languageCode = "en-US";
-        this.outputFormat = "mp3";
-        this.speechMarkTypes = ["word", "sentence"];
-        this.sampleRate = "22050";
-    }
-    voices(cb) {
-
-        console.log(res);
-
-    }
-
-    async listen(voiceId, text, OutputFormat = this.outputFormat, engine = this.engine, textType = "text", SpeechMarkTypes = this.speechMarkTypes, SampleRate = this.sampleRate, langCode = this.languageCode, lexiconNames = [""]) {
-
-        var parameters = {
-            "Engine": engine,
-            "LanguageCode": langCode,
-            "LexiconNames": [...lexiconNames],
-            "OutputFormat": OutputFormat,
-            "SampleRate": SampleRate,
-            "SpeechMarkTypes": [...SpeechMarkTypes],
-            "Text": text,
-            "TextType": textType,
-            "VoiceId": voiceId
-        };
-
-        var options = {
-            method: "post",
-            body: JSON.stringify(parameters),
-            headers: {
-                'Content-Type': 'application/json',
-                "Authorization": "polly AKIA5OROYF44ZBAPK46A:sv6D8bS6INZ2YDBZxaveDTj4a/2mHCB1mQB9pHZo"
-            },
-
-        }
-
-        Polly.synthesizeSpeech()
-        return speech;
-    }
-    write_file(stream) {
-        if (stream) {
-            fs.writeFile(__dirname, '');
-            fs.createReadStream()
-        }
-    }
-
-}
-
-var polly = new PollyFetch();
 
 
 app.get("/voices", (req, res) => {
