@@ -8,9 +8,9 @@ const fs = require('fs');
 const path = require('path');
 const { Writable } = require('stream');
 
-app.use(express.static(path.join(__dirname, 'client/build')))// Anything that doesn't match the above, send back index.html
+app.use(express.static(path.join(__dirname, 'client/public')))// Anything that doesn't match the above, send back index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'))
+    res.sendFile(path.join(__dirname + '/client/public/index.html'))
 })
 
 app.use(express.json());
@@ -49,32 +49,26 @@ app.post("/listen", (req, res) => {
         "Text": text,
         "TextType": "text",
         "VoiceId": voiceId
-    }; 
+    };
     Polly.synthesizeSpeech(parameters,
         function (err, { AudioStream }) {
             if (err) {
                 console.log(err, err.stack);
             } else {
-                var file_name = '/'+text.slice(0, 15) + '-TTS-sound.'+OutputFormat[0];
-                var file_dir = path.join(__dirname + '/public/', file_name );
+                var file_name = '/' + text.slice(0, 15) + '-TTS-sound.' + OutputFormat[0];
+                var file_dir = path.join(__dirname + '/public/', file_name);
                 fs.writeFile(file_dir, AudioStream, (err) => {
                     if (err) throw err;
                     console.log('The file has been saved!');
-                    return res.json({ message: 'success', data: file_name  });
+                    return res.json({ message: 'success', data: file_name });
                 });
 
             }
         });
 });
 
-app.get("/", (req, res) => {
-    res.json(
-        {
-            data: {
-                "name": "Play.ht test"
-            }
-        }
-    )
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/public/index.html'))
 });
 
 
