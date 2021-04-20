@@ -1,19 +1,18 @@
 {
-  "name": "play-ht-test-app",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "cd client && npm build && cd ../server && node app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NzakiCodes/play-ht-test-app.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/NzakiCodes/play-ht-test-app/issues"
-  },
-  "homepage": "https://github.com/NzakiCodes/play-ht-test-app#readme"
+  "dependencies": {
+    "aws-sdk": "^2.889.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1"
+  } 
 }
